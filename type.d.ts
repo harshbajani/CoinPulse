@@ -84,7 +84,7 @@ interface TrendingCoin {
     data: {
       price: number;
       price_change_percentage_24h: {
-        usd: number;
+        inr: number;
       };
     };
   };
