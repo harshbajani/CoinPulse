@@ -13,13 +13,13 @@ export function formatCurrency(
   showSymbol?: boolean
 ) {
   if (value === null || value === undefined || isNaN(value)) {
-    return showSymbol !== false ? "$0.00" : "0.00";
+    return showSymbol !== false ? "₹0.00" : "0.00";
   }
 
   if (showSymbol === undefined || showSymbol === true) {
     return value.toLocaleString(undefined, {
       style: "currency",
-      currency: currency?.toUpperCase() || "USD",
+      currency: currency?.toUpperCase() || "INR",
       minimumFractionDigits: digits ?? 2,
       maximumFractionDigits: digits ?? 2,
     });
