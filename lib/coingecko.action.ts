@@ -14,17 +14,23 @@ export async function fetcher<T>(
   params?: QueryParams,
   revalidate = 60
 ): Promise<T> {
+  const baseUrl = BASE_URL.endsWith("/") ? BASE_URL.slice(0, -1) : BASE_URL;
+  const cleanEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
+
   const url = qs.stringifyUrl(
     {
-      url: `${BASE_URL}/${endpoint}`,
+      url: `${baseUrl}${cleanEndpoint}`,
       query: params,
     },
     { skipEmptyString: true, skipNull: true }
   );
 
+  const isDemoKey = API_KEY.startsWith("CG-");
+  const headerKey = isDemoKey ? "x-cg-demo-api-key" : "x-cg-pro-api-key";
+
   const response = await fetch(url, {
     headers: {
-      "x-cg-pro-api-key": API_KEY,
+      [headerKey]: API_KEY,
       "Content-Type": "application/json",
     } as Record<string, string>,
     next: { revalidate },
